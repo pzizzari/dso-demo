@@ -46,7 +46,7 @@ spec:
     - name: jenkins-docker-cfg
       projected:
         sources:
-          - secret:
+        - secret:
             name: regcred
             items:
               - key: .dockerconfigjson
