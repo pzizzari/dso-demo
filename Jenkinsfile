@@ -44,9 +44,8 @@ pipeline {
            }
           }
          }
-        }
-      }
-    }
+        } // parallel
+      } // stage
     stage('Package') {
       parallel {
         stage('Create Jarfile') {
@@ -57,18 +56,19 @@ pipeline {
           }
         }
       }
-    }
+    } // stage
     stage('Docker BnP') {
          steps {
            container('kaniko') {
              sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --force --insecure --skip-tls-verify --cache=true --destination=docker.io/zkube/dso-demo'
         } 
       }
-    }
+    } // stage
     stage('Deploy to Dev') {
       steps {
         // TODO
         sh "echo done"
       }
-    }
-  }
+    } // stage
+  } // stages
+} // pipeline
