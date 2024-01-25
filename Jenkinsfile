@@ -53,17 +53,16 @@ pipeline {
             container('maven') {
               sh 'mvn package -DskipTests'
             }
+           }
+          } // stage
+        stage('Docker BnP') {
+            steps {
+              container('kaniko') {
+                sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --force --insecure --skip-tls-verify --cache=true --destination=docker.io/zkube/dso-demo'
+            } 
           }
-        }
-      }
-    } // stage
-    stage('Docker BnP') {
-         steps {
-           container('kaniko') {
-             sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --force --insecure --skip-tls-verify --cache=true --destination=docker.io/zkube/dso-demo'
-        } 
-      }
-    } // stage
+        } // stage
+     } // parallel
     stage('Deploy to Dev') {
       steps {
         // TODO
