@@ -61,13 +61,14 @@ pipeline {
                 sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --force --insecure --skip-tls-verify --cache=true --destination=docker.io/zkube/dso-demo'
             } 
           }
-        } // stage
-     } // parallel
+         } // stage
+        } // parallel
+       } // stage
     stage('Deploy to Dev') {
       steps {
         // TODO
         sh "echo done"
       }
-    } // stage
+     } // stage
   } // stages
 } // pipeline
