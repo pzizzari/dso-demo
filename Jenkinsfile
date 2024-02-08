@@ -18,8 +18,8 @@ pipeline {
         }
       }
     }
-   stage('Static Analysis') {
-     parallel {
+    stage('Static Analysis') {
+      parallel {
        stage('Unit Tests') {
           steps {
             container('maven') {
