@@ -18,6 +18,17 @@ pipeline {
         }
       }
     }
+   stage('Static Analysis') {
+     parallel {
+       stage('Unit Tests') {
+          steps {
+            container('maven') {
+              sh 'mvn test'
+            }
+          }
+        }
+      } // parallel
+     } // 'Static Analysis'
     stage('Package') {
       parallel {
         stage('Create Jarfile') {
