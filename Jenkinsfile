@@ -66,7 +66,7 @@ pipeline {
           ''' }
           } 
         }
-        post {
+          post {
            always {
              archiveArtifacts allowEmptyArchive: true,
                 artifacts: 'target/dependency-check-report.html', fingerprint:
