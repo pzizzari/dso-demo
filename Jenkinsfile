@@ -60,17 +60,26 @@ pipeline {
                       gem install license_finder
                       license_finder
           ''' }
-          } 
+           } 
          }
         } // parallel
+        stage('SAST') {
+          steps {
+            container('slscan') {
+              sh 'scan --type java,depscan --build'
+            }
+          }
           post {
+            success {
+              archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: true, onlyIfSuccessful: true } 
+          }
+        }      
+        post {
            always {
-             archiveArtifacts allowEmptyArchive: true,
-                artifacts: 'target/dependency-check-report.html', fingerprint:
-                true, onlyIfSuccessful: true
+             archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true
              // dependencyCheckPublisher pattern: 'report.xml'
            }
-          }
+         }
       } // stage 'Static Analysis'
     stage('Package') {
       parallel {
