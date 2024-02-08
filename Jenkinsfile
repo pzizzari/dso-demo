@@ -74,9 +74,8 @@ pipeline {
              // dependencyCheckPublisher pattern: 'report.xml'
            }
           }
-         }
         } // parallel
-      } // stage
+      } // stage 'Static Analysis'
     stage('Package') {
       parallel {
         stage('Create Jarfile') {
