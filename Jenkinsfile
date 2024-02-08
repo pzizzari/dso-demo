@@ -65,7 +65,8 @@ pipeline {
                       license_finder
           ''' }
           } 
-        }
+         }
+        } // parallel
           post {
            always {
              archiveArtifacts allowEmptyArchive: true,
@@ -74,7 +75,6 @@ pipeline {
              // dependencyCheckPublisher pattern: 'report.xml'
            }
           }
-        } // parallel
       } // stage 'Static Analysis'
     stage('Package') {
       parallel {
