@@ -49,7 +49,6 @@ pipeline {
               }
             } 
          }
-          
         stage('OSS License Checker') {
           steps {
             container('licensefinder') {
