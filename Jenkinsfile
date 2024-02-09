@@ -79,6 +79,7 @@ pipeline {
         always {
             sh 'exit 0'
         }
+      }
      } // 'Static Analysis'
     stage('Package') {
       parallel {
