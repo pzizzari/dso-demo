@@ -92,6 +92,24 @@ pipeline {
          } // stage
         } // parallel
        } // stage
+    stage('Image Analysis') {
+      parallel {
+        stage('Image Linting') {
+          steps {
+            container('docker-tools') {
+              sh 'dockle docker.io/zkube/dso-demo'
+            }
+          }
+        } // image Linting
+        stage('Image Scan') {
+          steps {
+            container('docker-tools') {
+              sh 'trivy image --exit-code 1 zkube/dso-demo'
+              }
+           }
+         }
+      }
+     } // Image Analysis
     stage('Deploy to Dev') {
       steps {
         // TODO
