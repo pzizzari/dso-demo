@@ -1,4 +1,7 @@
 pipeline {
+  environment {
+    ARGO_SERVER = '34.65.216.173:32100'
+  }
   agent {
     kubernetes {
       yamlFile 'build-agent.yaml'
@@ -53,14 +56,13 @@ pipeline {
           steps {
             container('licensefinder') {
               sh 'ls -al'
-              sh '''#!/bin/bash --login
-                      /bin/bash --login
+              sh '#!/bin/bash --login
                       rvm use default
                       gem install license_finder
                       license_finder
-          ''' }
-           } 
-         }
+              ' }
+            }  
+          }
         stage('SAST') {
           steps {
             container('slscan') {
@@ -110,6 +112,17 @@ pipeline {
          }
       }
      } // Image Analysis
+    stage('Deploy to Dev') {
+      environment {
+        AUTH_TOKEN = credentials('argocd-jenkins-deployer-token')
+       }
+      steps {
+        container('docker-tools') {
+          sh 'docker run -t schoolofdevops/argocd-cli argocd app sync dso-demo  --insecure --server $ARGO_SERVER --auth-token $AUTH_TOKEN'
+          sh 'docker run -t schoolofdevops/argocd-cli argocd app wait dso-demo --health --timeout 300 --insecure --server $ARGO_SERVER --auth-token $AUTH_TOKEN'
+         }
+        }
+      }
     stage('Deploy to Dev') {
       steps {
         // TODO
