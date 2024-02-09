@@ -32,7 +32,7 @@ pipeline {
         }
         stage('SCA') {
           steps {
-            echo 1
+            echo "1"
           }
          }
         stage('Generate SBOM') {
@@ -50,12 +50,12 @@ pipeline {
          }
         stage('OSS License Checker') {
           steps {
-            echo 2
+            echo "2"
             }  
           }
         stage('SAST') {
           steps {
-            echo 3
+            echo "3"
            }
           post {
             success {
